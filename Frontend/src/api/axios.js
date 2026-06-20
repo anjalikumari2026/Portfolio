@@ -21,6 +21,16 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Log every API failure to the console for debugging
+    const url = error?.config?.url || "unknown";
+    const method = error?.config?.method?.toUpperCase() || "?";
+    const status = error?.response?.status || "(no response)";
+    const body = error?.response?.data;
+    console.error(
+      `[API] ${method} ${url} → ${status}`,
+      body || error?.message || error,
+    );
+
     const message =
       error?.response?.data?.message ||
       error?.message ||

@@ -44,9 +44,9 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 
-// CORS Configuration
+// CORS Configuration — allow env override, fall back to a permissive default
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
+  ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
   : [
       "http://localhost:5173",
       "http://localhost:3000",
@@ -55,12 +55,21 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
       "https://portfolio-frontend-2s15.onrender.com",
     ];
 
+// Accept any *.onrender.com origin so new Render deployments work without
+// updating this list.  Remove or narrow this check for stricter security.
+const isRenderOrigin = (origin) =>
+  origin && origin.endsWith(".onrender.com");
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (server-to-server, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin) || isRenderOrigin(origin)) {
         callback(null, true);
       } else {
+        console.warn(`[CORS] Blocked request from origin: ${origin}`);
         callback(null, false);
       }
     },
