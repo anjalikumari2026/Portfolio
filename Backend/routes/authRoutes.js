@@ -6,6 +6,7 @@ const {
   loginAdmin,
   getCurrentAdmin,
   logoutAdmin,
+  changePassword,
 } = require("../controllers/authController");
 
 const { isAuthenticated } = require("../middleware/authMiddleware");
@@ -26,5 +27,7 @@ router.post("/login", loginLimiter, loginAdmin);
 router.get("/me", isAuthenticated, getCurrentAdmin);
 
 router.post("/logout", isAuthenticated, logoutAdmin);
+
+router.put("/change-password", isAuthenticated, changePassword);
 
 module.exports = router;

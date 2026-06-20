@@ -23,6 +23,7 @@ const ManageCertificates = lazy(() => import("@/pages/admin/certificates/ManageC
 const ManageResume = lazy(() => import("@/pages/admin/resume/ManageResume"));
 const ManageProfile = lazy(() => import("@/pages/admin/profile/ManageProfile"));
 const ContactMessages = lazy(() => import("@/pages/admin/messages/ContactMessages"));
+const ChangePassword = lazy(() => import("@/pages/admin/ChangePassword"));
 
 function PageFallback() {
   return (
@@ -123,6 +124,7 @@ const router = createBrowserRouter([
       { path: "resume", element: <LazyPage Component={ManageResume} /> },
       { path: "profile", element: <LazyPage Component={ManageProfile} /> },
       { path: "messages", element: <LazyPage Component={ContactMessages} /> },
+      { path: "change-password", element: <LazyPage Component={ChangePassword} /> },
     ],
   },
 ]);

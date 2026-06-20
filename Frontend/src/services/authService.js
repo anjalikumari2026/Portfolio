@@ -33,5 +33,15 @@ const getCurrentAdmin = async () => {
   }
 };
 
-const authService = { loginAdmin, logoutAdmin, getCurrentAdmin };
+// PUT /auth/change-password  →  { message }
+const changePassword = async (payload) => {
+  try {
+    const { data } = await api.put(ENDPOINTS.AUTH.CHANGE_PASSWORD, payload);
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const authService = { loginAdmin, logoutAdmin, getCurrentAdmin, changePassword };
 export default authService;
